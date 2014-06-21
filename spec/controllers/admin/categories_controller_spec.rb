@@ -11,11 +11,22 @@ describe Admin::CategoriesController do
     request.session = { :user => henri.id }
   end
 
+
   it "test_index" do
     get :index
-    assert_response :redirect, :action => 'new'
+    #assert_response :redirect, :action => 'new'
+    response.should redirect_to(:action => 'new')
   end
 
+  describe "test_new" do
+    it 'should render template new' do
+      get :new
+      #assert_template 'new'
+      expect(response).to render_template('new')
+      assert_tag :tag => "table",
+                 :attributes => { :id => "category_container" }
+    end
+  end
 
   describe "test_edit" do
     before(:each) do

@@ -5,7 +5,6 @@ class Admin::CategoriesController < Admin::BaseController
   def edit; new_or_edit;  end
 
   def new
-    debugger
     respond_to do |format|
       format.html { new_or_edit }
       format.js { 
@@ -25,9 +24,10 @@ class Admin::CategoriesController < Admin::BaseController
   private
 
   def new_or_edit
-    debugger
     @categories = Category.find(:all)
     id = params[:id]
+    #@category = Category.find(params[:id])
+    #new code to build a new category (empty fields) if ID is nil, otherwise get the category as in the old code above
     @category = Category.get_or_build_category(id)
     @category.attributes = params[:category]
     if request.post?
