@@ -15,10 +15,15 @@ module NavigationHelpers
 
     when /^the home\s?page$/
       '/'
-    when /^the new article page$/
-      '/admin/content/new'
+      when /^the new article page$/
+        '/admin/content/new'
+      when /^the admin page$/
+        '/admin'
 
-    # Add more mappings here.
+      when /^the categories page$/
+        '/admin/categories/new'
+
+      # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
     #   when /^(.*)'s profile page$/i

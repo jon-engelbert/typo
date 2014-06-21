@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="2835818062">
+    <data-source source="LOCAL" name="Rails typo: production" uuid="003bdb6a-b81b-48a4-ae43-a07b798f0aab">
+      <driver-ref>postgresql</driver-ref>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql:db_production</jdbc-url>
+      <libraries />
+    </data-source>
+    <data-source source="LOCAL" name="Rails typo: development" uuid="8b8bf93f-5730-4654-b70f-35fa7c9059ce">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/db/db_development</jdbc-url>
+      <libraries />
+    </data-source>
+    <data-source source="LOCAL" name="Rails typo: test" uuid="bc80bfcd-9cf8-49af-bf86-15e3acd6b3d5">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/db/db_test</jdbc-url>
+      <libraries />
+    </data-source>
+    <data-source source="LOCAL" name="Rails typo: cucumber" uuid="309d2b72-6b65-4a68-856e-b8b4ed5bd048">
+      <driver-ref>sqlite.xerial</driver-ref>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/db/db_test</jdbc-url>
+      <libraries />
+    </data-source>
+  </component>
+</project>
+

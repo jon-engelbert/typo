@@ -4,7 +4,8 @@ class Admin::CategoriesController < Admin::BaseController
   def index; redirect_to :action => 'new' ; end
   def edit; new_or_edit;  end
 
-  def new 
+  def new
+    debugger
     respond_to do |format|
       format.html { new_or_edit }
       format.js { 
@@ -24,8 +25,10 @@ class Admin::CategoriesController < Admin::BaseController
   private
 
   def new_or_edit
+    debugger
     @categories = Category.find(:all)
-    @category = Category.find(params[:id])
+    id = params[:id]
+    @category = Category.get_or_build_category(id)
     @category.attributes = params[:category]
     if request.post?
       respond_to do |format|
