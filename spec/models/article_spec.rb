@@ -100,7 +100,7 @@ describe Article do
   it "test_permalink_with_title" do
     article = Factory(:article, :permalink => 'article-3', :published_at => Time.utc(2004, 6, 1))
     assert_equal(article,
-                Article.find_by_permalink({:year => 2004, :month => 06, :day => 01, :title => "article-3"}) )
+                 Article.find_by_permalink({:year => 2004, :month => 06, :day => 01, :title => "article-3"}))
     assert_raises(ActiveRecord::RecordNotFound) do
       Article.find_by_permalink :year => 2005, :month => "06", :day => "01", :title => "article-5"
     end
@@ -184,25 +184,25 @@ describe Article do
   ### XXX: Should we have a test here?
   it "test_send_multiple_pings" do
   end
-  
+
   describe "Testing redirects" do
     it "a new published article gets a redirect" do
       a = Article.create(:title => "Some title", :body => "some text", :published => true)
       a.redirects.first.should_not be_nil
       a.redirects.first.to_path.should == a.permalink_url
     end
-    
-    it "a new unpublished article should not get a redirect" do 
+
+    it "a new unpublished article should not get a redirect" do
       a = Article.create(:title => "Some title", :body => "some text", :published => false)
       a.redirects.first.should be_nil
     end
-    
+
     it "Changin a published article permalink url should only change the to redirection" do
       a = Article.create(:title => "Some title", :body => "some text", :published => true)
       a.redirects.first.should_not be_nil
       a.redirects.first.to_path.should == a.permalink_url
-      r  = a.redirects.first.from_path
-      
+      r = a.redirects.first.from_path
+
       a.permalink = "some-new-permalink"
       a.save
       a.redirects.first.should_not be_nil
@@ -214,21 +214,21 @@ describe Article do
   describe "with tags" do
     it "recieves tags from the keywords property" do
       a = Factory(:article, :keywords => 'foo bar')
-      assert_equal ['foo', 'bar'].sort, a.tags.collect {|t| t.name}.sort
+      assert_equal ['foo', 'bar'].sort, a.tags.collect { |t| t.name }.sort
     end
 
     it "changes tags when changing keywords" do
       a = Factory(:article, :keywords => 'foo bar')
       a.keywords = 'foo baz'
       a.save
-      assert_equal ['foo', 'baz'].sort, a.tags.collect {|t| t.name}.sort
+      assert_equal ['foo', 'baz'].sort, a.tags.collect { |t| t.name }.sort
     end
 
     it "empties tags when keywords is set to ''" do
       a = Factory(:article, :keywords => 'foo bar')
       a.keywords = ''
       a.save
-      assert_equal [], a.tags.collect {|t| t.name}.sort
+      assert_equal [], a.tags.collect { |t| t.name }.sort
     end
 
     it "properly deals with dots and spaces" do
@@ -270,12 +270,12 @@ describe Article do
 
     art = Article.create!(:title => 'title2', :body => 'body', :published => false)
 
-    assert ! art.just_changed_published_status?
+    assert !art.just_changed_published_status?
   end
 
   it "test_future_publishing" do
     assert_sets_trigger(Article.create!(:title => 'title', :body => 'body',
-      :published => true, :published_at => Time.now + 4.seconds))
+                                        :published => true, :published_at => Time.now + 4.seconds))
   end
 
   it "test_future_publishing_without_published_flag" do
@@ -314,9 +314,9 @@ describe Article do
     cat = Factory(:category, :permalink => 'software')
     cat.articles << Factory(:article)
 
-    Article.create!(:title      => "News from the future!",
-                    :body       => "The future is cool!",
-                    :keywords   => "future",
+    Article.create!(:title => "News from the future!",
+                    :body => "The future is cool!",
+                    :keywords => "future",
                     :published_at => Time.now + 12.minutes)
 
     articles = Category.find_by_permalink('personal').published_articles
@@ -350,19 +350,19 @@ describe Article do
     a = Factory.build(:article)
     assert a.save
     assert_equal 2, a.notify_users.size
-    assert_equal ['alice', 'henri'], a.notify_users.collect {|u| u.login }.sort
+    assert_equal ['alice', 'henri'], a.notify_users.collect { |u| u.login }.sort
   end
 
   it "test_withdrawal" do
     art = Factory(:article)
-    assert   art.published?
-    assert ! art.withdrawn?
+    assert art.published?
+    assert !art.withdrawn?
     art.withdraw!
-    assert ! art.published?
-    assert   art.withdrawn?
+    assert !art.published?
+    assert art.withdrawn?
     art.reload
-    assert ! art.published?
-    assert   art.withdrawn?
+    assert !art.published?
+    assert art.withdrawn?
   end
 
   describe "#default_text_filter" do
@@ -399,13 +399,13 @@ describe Article do
   describe 'body_and_extended' do
     before :each do
       @article = Article.new(
-        :body => 'basic text',
-        :extended => 'extended text to explain more and more how Typo is wonderful')
+          :body => 'basic text',
+          :extended => 'extended text to explain more and more how Typo is wonderful')
     end
 
     it 'should combine body and extended content' do
       @article.body_and_extended.should ==
-        "#{@article.body}\n<!--more-->\n#{@article.extended}"
+          "#{@article.body}\n<!--more-->\n#{@article.extended}"
     end
 
     it 'should not insert <!--more--> tags if extended is empty' do
@@ -467,7 +467,7 @@ describe Article do
     end
 
     it 'should be settable via self.attributes=' do
-      @article.attributes = { :body_and_extended => 'foo<!--more-->bar' }
+      @article.attributes = {:body_and_extended => 'foo<!--more-->bar'}
       @article.body.should == 'foo'
       @article.extended.should == 'bar'
     end
@@ -571,7 +571,7 @@ describe Article do
     describe "#find_by_permalink" do
       it "uses UTC to determine correct day" do
         @a.save
-        a = Article.find_by_permalink :year => 2011, :month => 2, :day => 21, :permalink => 'a-big-article' 
+        a = Article.find_by_permalink :year => 2011, :month => 2, :day => 21, :permalink => 'a-big-article'
         a.should == @a
       end
     end
@@ -592,7 +592,7 @@ describe Article do
     describe "#find_by_permalink" do
       it "uses UTC to determine correct day" do
         @a.save
-        a = Article.find_by_permalink :year => 2011, :month => 2, :day => 22, :permalink => 'a-big-article' 
+        a = Article.find_by_permalink :year => 2011, :month => 2, :day => 22, :permalink => 'a-big-article'
         a.should == @a
       end
     end
@@ -630,5 +630,27 @@ describe Article do
     end
 
   end
+  describe "merge tests" do
+    it "test merge happy" do
+      a = Article.new
+      a.body= "1"
+      b = Article.new
+      b.body= "2"
+      expect(a.merge(b)).to eq("1  2")
+    end
+
+    it "test merge with self" do
+      a = Article.new
+      a.body= "1"
+      expect(a.merge(a)).to eq("1  1")
+    end
+
+    it "test merge without 2nd article" do
+      a = Article.new
+      a.body= "1"
+      expect(a.merge(nil)).to eq("1")
+    end
+  end
+
 end
 
