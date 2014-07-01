@@ -1,0 +1,5 @@
+<% @page_heading = _('Edit article') %>
+
+<%= render "admin/shared/edit", { :form_type => "article", :form_action => { :action => "edit", :id => @article.id , :class => ('autosave')} } %>
+
+

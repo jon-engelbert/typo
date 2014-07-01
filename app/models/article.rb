@@ -61,6 +61,23 @@ class Article < Content
 
   setting :password,                   :string, ''
 
+  def merge(other_id)
+
+    begin
+      other_article = Article.find(other_id)
+    rescue Exception
+      # ErrorLogger.log(Time.now, "No other article with this ID")
+      return false
+    end
+    raise ArgumentError,  "don't merge with self" if other_article == self
+    raise ArgumentError,  "other article shouldn't be nil" if other_article.nil?
+    self.body= "#{self.body} #{other_article.body}"
+    self.comments << other_article.comments
+    self.save!()
+    other_article.destroy
+    return self.body
+  end
+
   def initialize(*args)
     super
     # Yes, this is weird - PDC

@@ -24,17 +24,48 @@ class Admin::ContentController < Admin::BaseController
   end
 
   def new
-    new_or_edit
+    if new_or_edit
+      render "new"
+    end
+  end
+
+  def merge_with
+    @article = Article.find(params[:id])
+    unless @article.access_by? current_user
+      redirect_to :action => 'index'
+      flash[:error] = _("Error, you are not allowed to perform this action")
+      return false
+    end
+    otherID = Integer(params['merge_with'])
+
+    begin
+      @article.merge(otherID) unless otherID < 0
+    rescue Exception
+      return false
+    end
+    return true
   end
 
   def edit
-    @article = Article.find(params[:id])
+    if !params['commit'].blank? && params['commit'] == "Merge"
+      merge_with
+      new_or_edit
+      return
+    end
+    begin
+      @article = Article.find(params[:id])
+    rescue Exception
+      # ErrorLogger.log(Time.now, "No article with this ID")
+      return
+    end
     unless @article.access_by? current_user
       redirect_to :action => 'index'
       flash[:error] = _("Error, you are not allowed to perform this action")
       return
     end
-    new_or_edit
+    if (new_or_edit)
+      render "edit"
+    end
   end
 
   def destroy
@@ -173,14 +204,14 @@ class Admin::ContentController < Admin::BaseController
         set_article_categories
         set_the_flash
         redirect_to :action => 'index'
-        return
+        return FALSE
       end
     end
 
     @images = Resource.images_by_created_at.page(params[:page]).per(10)
     @resources = Resource.without_images_by_filename
     @macros = TextFilter.macro_filters
-    render 'new'
+    return TRUE
   end
 
   def set_the_flash
