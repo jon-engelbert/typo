@@ -24,6 +24,12 @@ class Admin::ContentController < Admin::BaseController
   end
 
   def new
+    if !params['commit'].blank? && params['commit'] == "Merge"
+      merge_with
+      new_or_edit
+      render "new"
+      return
+    end
     if new_or_edit
       render "new"
     end
@@ -50,6 +56,7 @@ class Admin::ContentController < Admin::BaseController
     if !params['commit'].blank? && params['commit'] == "Merge"
       merge_with
       new_or_edit
+      render "new"
       return
     end
     begin
@@ -63,8 +70,9 @@ class Admin::ContentController < Admin::BaseController
       flash[:error] = _("Error, you are not allowed to perform this action")
       return
     end
+    @merge_with = 0
     if (new_or_edit)
-      render "edit"
+      render "new"
     end
   end
 

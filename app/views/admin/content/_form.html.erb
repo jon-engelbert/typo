@@ -157,25 +157,6 @@
     </ul>
   </div>
 </div>
-<% if controller.action_name == "edit"%>
-<div class=''>
-  <%= form_tag({:action => 'merge_with'}, :method => :post) do %>
-      Merge Articles
-      <br>
 
-      <div class='clearfix'>
-        <label for="merge_with"><%= _("Article ID") %></label>
 
-        <div class='input'>
-          <%= text_field_tag :merge_with, 0 %>
-        </div>
-      </div>
-      <div>
-        <%= submit_tag(_('Merge'), {class: 'btn', name: "commit"}) -%>
-      </div>
-  <% end -%>
-</div>
-<% end -%>
-
-</div>
 
