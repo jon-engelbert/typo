@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source source="LOCAL" name="Rails typo: production" uuid="003bdb6a-b81b-48a4-ae43-a07b798f0aab">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
+  <data-source source="LOCAL" name="Rails typo: development" uuid="8b8bf93f-5730-4654-b70f-35fa7c9059ce">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
+  <data-source source="LOCAL" name="Rails typo: test" uuid="bc80bfcd-9cf8-49af-bf86-15e3acd6b3d5">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
+  <data-source source="LOCAL" name="Rails typo: cucumber" uuid="309d2b72-6b65-4a68-856e-b8b4ed5bd048">
+    <database-info product="" version="" jdbc-version="" driver-name="" driver-version=""/>
+  </data-source>
+</component>
