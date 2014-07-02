@@ -1,0 +1,8 @@
+<% className = form_action.delete(:class) %>
+<% if controller.action_name == "edit" %>
+    <%= form_tag(form_action, :id => @article.id, :enctype => "multipart/form-data", :class => className) do %>
+
+        <%= render :partial => "merge" %>
+
+    <% end %>
+<% end %>

@@ -633,22 +633,42 @@ describe Article do
   describe "merge tests" do
     it "test merge happy" do
       a = Article.new
+      a.stub(:save!)
+      a.title = "article1"
       a.body= "1"
+      a.id = 1
+      ac = Comment.new
+      ac.title= "comment1"
+      ac.body= "body1"
+      ac.article_id = a.id
+      ac.author = "bob"
+      a.comments << ac
       b = Article.new
+      b.stub(:destroy)
+      b.title = "article2"
       b.body= "2"
-      expect(a.merge(b)).to eq("1  2")
+      b.id = 2
+      bc = Comment.new
+      bc.title= "comment2"
+      bc.body= "body2"
+      bc.article_id = b.id
+      bc.author = "bob"
+      b.comments << bc
+      Article.should_receive(:find).and_return(b)
+      expect(a.merge(b.id)).to eq("1 2")
+      expect(a.comments.length).to eq(2)
     end
 
     it "test merge with self" do
       a = Article.new
       a.body= "1"
-      expect(a.merge(a)).to eq("1  1")
+      expect(a.merge(a)).to eq(false)
     end
 
     it "test merge without 2nd article" do
       a = Article.new
       a.body= "1"
-      expect(a.merge(nil)).to eq("1")
+      expect(a.merge(nil)).to eq(false)
     end
   end
 

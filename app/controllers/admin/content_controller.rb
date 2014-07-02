@@ -34,28 +34,34 @@ class Admin::ContentController < Admin::BaseController
     unless @article.access_by? current_user
       redirect_to :action => 'index'
       flash[:error] = _("Error, you are not allowed to perform this action")
-      return
+      return false
     end
-    otherID = Integer(params['otherID'])
-    otherArticle = Article.find(otherID)
-    @article.merge(otherArticle)
-    # save the record before merging
-    render "edit"
+    otherID = Integer(params['merge_with'])
+
+    begin
+      @article.merge(otherID) unless otherID < 0
+    rescue Exception
+      return false
+    end
+    redirect_to :action => 'index'
+    return true
   end
 
   def edit
-    if !params['commit'].blank? && params['commit'] == "Merge"
-      merge_with
+    begin
+      @article = Article.find(params[:id])
+    rescue Exception
+      # ErrorLogger.log(Time.now, "No article with this ID")
       return
     end
-    @article = Article.find(params[:id])
     unless @article.access_by? current_user
       redirect_to :action => 'index'
       flash[:error] = _("Error, you are not allowed to perform this action")
       return
     end
+    @merge_with = 0
     if (new_or_edit)
-      render "edit"
+      render "new"
     end
   end
 
