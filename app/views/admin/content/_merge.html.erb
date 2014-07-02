@@ -1,19 +1,15 @@
-<% if controller.action_name == "edit"%>
-    <%= form_tag 'merge_with/#{@article.id}', :action => 'merge_with' do %>
-    <div class=''>
-          Merge Articles
-          <br>
+<div class=''>
+  Merge Articles
+  <br>
 
-          <div class='clearfix'>
-            <label for="merge_with"><%= _("Article ID") %></label>
+  <div class='clearfix'>
+    <label for="merge_with"><%= _("Article ID") %></label>
 
-            <div class='input'>
-              <%= text_field_tag :merge_with, 0 %>
-            </div>
-          </div>
-          <div>
-            <%= submit_tag(_('Merge'), {class: 'btn', name: "commit"}) -%>
-          </div>
-      <% end -%>
+    <div class='input'>
+      <%= text_field_tag :merge_with, 0 %>
     </div>
-<% end -%>
+  </div>
+  <div>
+    <%= submit_tag(_('Merge'), :clas => 'btn', :name => "commit") %>
+  </div>
+</div>

@@ -24,12 +24,6 @@ class Admin::ContentController < Admin::BaseController
   end
 
   def new
-    if !params['commit'].blank? && params['commit'] == "Merge"
-      merge_with
-      new_or_edit
-      render "new"
-      return
-    end
     if new_or_edit
       render "new"
     end
@@ -49,16 +43,11 @@ class Admin::ContentController < Admin::BaseController
     rescue Exception
       return false
     end
+    redirect_to :action => 'index'
     return true
   end
 
   def edit
-    if !params['commit'].blank? && params['commit'] == "Merge"
-      merge_with
-      new_or_edit
-      render "new"
-      return
-    end
     begin
       @article = Article.find(params[:id])
     rescue Exception
