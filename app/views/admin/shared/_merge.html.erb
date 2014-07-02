@@ -1,5 +1,5 @@
 <% className = form_action.delete(:class) %>
-<% if controller.action_name == "edit" %>
+<% if controller.action_name == "edit"  && current_user.profile_label == "admin"%>
     <%= form_tag(form_action, :id => @article.id, :enctype => "multipart/form-data", :class => className) do %>
 
         <%= render :partial => "merge" %>

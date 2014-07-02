@@ -473,7 +473,6 @@ describe Admin::ContentController do
       @user.editor = 'simple'
       @user.save
       @article = Factory(:article)
-      @article2 = Factory(:article2)
       request.session = {:user => @user.id}
     end
 

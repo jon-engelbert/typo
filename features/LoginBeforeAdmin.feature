@@ -6,14 +6,17 @@ Feature: Login before admin
   Background:
     Given the blog is set up
     And I am on the home page
+    And the following Articles exist
+      | id | title    | body                          |author | published_at |
+      | 2 | article1 | 1st interesting article body. | Bob   |DateTime.now  |
 
   Scenario: A non-admin cannot merge articles.
 #    And I am not logged in
-    When I go to the admin page
-    Then I should not see "Logged in as"
+    When I go to the article page for "article1"
+    Then I should not see "Merge Articles"
 
   Scenario: An admin can merge articles.
     And I am logged into the admin panel
-    When I go to the admin page
-    Then I should see "Logged in as"
+    When I go to the article page for "article1"
+    Then I should see "Merge Articles"
 
