@@ -72,9 +72,12 @@ class Article < Content
     raise ArgumentError,  "don't merge with self" if other_article == self
     raise ArgumentError,  "other article shouldn't be nil" if other_article.nil?
     self.body= "#{self.body} #{other_article.body}"
+    other_article.comments.each { |other_comment|
+      other_comment.article = self
+    }
     self.comments << other_article.comments
     self.save!()
-    other_article.destroy
+    #other_article.destroy
     return self.body
   end
 

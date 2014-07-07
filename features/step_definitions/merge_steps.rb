@@ -18,24 +18,30 @@ end
 Given (/^the following Comments exist$/) do |table|
   # Article.stub!(:comments_closed?).and_return(TRUE)
   table.hashes.each do |hash|
-    Comment.create!(hash)
+    comment= Comment.new()
+    comment.title= hash['title']
+    comment.body= hash['body']
+    comment.author= hash['author']
+    article= Article.find_by_title(hash['article_title'])
+    comment.article_id= article.id
+    comment.save
   end
 end
 
 
-And(/^the article "([^"]*)" should have comment "([^"]*)"$/) do |title, comment_body|
+And(/^the article "([^"]*)" should have comment "([^"]*)"$/) do |title, comment_title|
   expect(Article.exists?(title: title))
   article = Article.find_by_title(title)
   article.comments.length.should >= 1
-  comment = Comment.find_by_body(comment_body)
+  comment = Comment.find_by_title(comment_title)
   assert(article.comments.include?(comment))
 end
 
-And(/^the article "([^"]*)" should have 2nd comment "([^"]*)"$/) do |title, comment_body|
+And(/^the article "([^"]*)" should have 2nd comment "([^"]*)"$/) do |title, comment_title|
   expect(Article.exists?(title: title))
   article = Article.find_by_title(title)
   article.comments.length.should > 1
-  comment = Comment.find_by_title(comment_body)
+  comment = Comment.find_by_title(comment_title)
   assert(article.comments.include?(comment))
 end
 
@@ -48,16 +54,22 @@ end
 And(/^a Comment exists for "([^"]*)"$/) do |articleTitle|
   article = Article.find_by_title(articleTitle)
   articleID = article.id
-  # comment = Comment.create!(title:"comment1", body: "body1", article_id: articleID, author: "bob")
-  article.add_comment(title:"comment1", body: "body1", author: "bob")
+  comment = Comment.create!(title:"comment1", body: "body1", article_id: articleID, author: "bob")
+  article.add_comment(comment)
+  #comment = article.comments.build(title:"comment1", body: "body1", author: "bob")
+  #comment = article.with_options(new_comment_defaults) do |art|
+  #  art.add_comment(params[:comment].symbolize_keys)
+  #end
 
 end
 
 And(/^a Comment "([^"]*)" exists for "([^"]*)"$/) do |commentTitle, articleTitle|
   article = Article.find_by_title(articleTitle)
+  comment = Comment.find_by_title(commentTitle)
   articleID = article.id
-#  Comment.create!(title:commentTitle, body: "body2", article_id: articleID, author: "bob")
-  article.add_comment(title:commentTitle, body: "body2", author: "bob")
+#  comment = Comment.create!(title:commentTitle, body: "body2", article_id: articleID, author: "bob")
+  article.add_comment(comment)
+#  comment = article.comments.build(title:"comment1", body: "body2", author: "bob")
 end
 
 And(/^I should see field "([^"]*)"$/) do |field_id|
